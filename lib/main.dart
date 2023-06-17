@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_test_app/pages/home/home_page.dart';
+import 'package:flutter_test_app/pages/login/login_page.dart';
+import 'package:flutter_test_app/pages/splash/splash_page.dart';
 import 'package:flutter_test_app/services/data_service.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_test_app/injection.dart';
@@ -17,8 +20,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var routes = <String, Widget>{};
-
     return ChangeNotifierProvider(
         create: (context) => StateObject(),
         child: MaterialApp(
@@ -27,8 +28,12 @@ class MyApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             useMaterial3: true,
           ),
-          home: const SignUpPage(title: 'Flutter Demo Home Page'),
-          routes: Map.from(routes),
+          routes: {
+            '/': (context) => const SplashPage(),
+            '/signup': (context) => const SignUpPage(),
+            '/login': (context) => const LoginPage(),
+            '/home': (context) => const HomePage(),
+          },
         ));
   }
 }

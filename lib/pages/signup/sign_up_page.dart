@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test_app/injection.dart';
 import 'package:flutter_test_app/models/dtos/user.dart';
-import 'package:flutter_test_app/models/entities/user.dart';
 import 'package:flutter_test_app/services/data_service.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_test_app/state_object.dart';
 
 class SignUpPage extends StatefulWidget {
-  const SignUpPage({super.key, required this.title});
-  final String title;
+  const SignUpPage({super.key});
 
   @override
   State<SignUpPage> createState() => _SignUpPageState();
@@ -74,7 +72,7 @@ class _SignUpPageState extends State<SignUpPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+        title: const Text('Sign in page'),
       ),
       body: Center(
         child: Column(
