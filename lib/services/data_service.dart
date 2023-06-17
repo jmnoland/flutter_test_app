@@ -1,9 +1,12 @@
 import 'dart:async';
 import 'package:flutter_test_app/interfaces/data_service_interface.dart';
-import 'package:flutter_test_app/models/user.dart';
+import 'package:flutter_test_app/models/dtos/user.dart';
+import 'package:flutter_test_app/models/entities/user.dart';
+import 'package:injectable/injectable.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
+@Injectable(as: DataServiceInterface)
 class DataService implements DataServiceInterface {
   late Future<Database> _database;
 
@@ -43,7 +46,7 @@ class DataService implements DataServiceInterface {
   }
 
   @override
-  Future<void> insertUser(User user) async {
+  Future<void> insertUser(UserDto user) async {
     final db = await _database;
 
     await db.insert(
