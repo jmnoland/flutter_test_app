@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class StateObject extends ChangeNotifier {
-  var count = 0;
+  String email = '';
 
-  void incrementCounter() {
-    count++;
+  void setUserEmail(value) {
+    email = value;
     notifyListeners();
   }
 }

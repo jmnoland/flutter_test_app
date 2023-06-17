@@ -14,6 +14,8 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
   var _showPassword = false;
 
   void _toggleShowPassword() {
@@ -76,7 +78,25 @@ class _SignUpPageState extends State<SignUpPage> {
                       autocorrect: false,
                       enableIMEPersonalizedLearning: false,
                       decoration: InputDecoration(
-                        labelText: 'Passowrd',
+                        labelText: 'Password',
+                        border: const OutlineInputBorder(),
+                        suffixIcon: IconButton(
+                            icon: Icon(_showPassword
+                                ? Icons.visibility
+                                : Icons.visibility_off),
+                            onPressed: () {
+                              _toggleShowPassword();
+                            }),
+                      ),
+                    ),
+                    TextFormField(
+                      controller: _confirmPasswordController,
+                      obscureText: !_showPassword,
+                      enableSuggestions: false,
+                      autocorrect: false,
+                      enableIMEPersonalizedLearning: false,
+                      decoration: InputDecoration(
+                        labelText: 'Confirm passowrd',
                         border: const OutlineInputBorder(),
                         suffixIcon: IconButton(
                             icon: Icon(_showPassword

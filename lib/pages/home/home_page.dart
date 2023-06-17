@@ -40,13 +40,11 @@ class _MyHomePageState extends State<HomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
-            Text(appState.count.toString())
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          appState.incrementCounter();
           _incrementCounter();
         },
         tooltip: 'Increment',
