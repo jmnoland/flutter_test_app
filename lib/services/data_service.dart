@@ -8,14 +8,10 @@ import 'package:sqflite/sqflite.dart';
 
 @Injectable(as: DataServiceInterface)
 class DataService implements DataServiceInterface {
-  late Future<Database> _database;
+  late Database _database;
 
-  DataService() {
-    openLocalDatabase();
-  }
-
-  void openLocalDatabase() async {
-    _database = openDatabase(
+  Future openLocalDatabase() async {
+    _database = await openDatabase(
       join(await getDatabasesPath(), 'database.db'),
       onCreate: (db, version) {
         // Run the CREATE TABLE statement on the database.
@@ -29,11 +25,11 @@ class DataService implements DataServiceInterface {
 
   @override
   Future<bool> login(String email, String password) async {
-    final db = await _database;
+    final db = _database;
 
     final List<Map<String, dynamic>> maps = await db.query(
       'users',
-      where: 'id = ? AND password = ?',
+      where: 'email = ? AND password = ?',
       whereArgs: [email, password],
     );
     return List.generate(maps.length, (i) {
@@ -47,7 +43,7 @@ class DataService implements DataServiceInterface {
 
   @override
   Future<void> insertUser(UserDto user) async {
-    final db = await _database;
+    final db = _database;
 
     await db.insert(
       'users',
@@ -58,7 +54,7 @@ class DataService implements DataServiceInterface {
 
   @override
   Future<List<User>> getUsers() async {
-    final db = await _database;
+    final db = _database;
 
     final List<Map<String, dynamic>> maps = await db.query('users');
 
@@ -73,7 +69,7 @@ class DataService implements DataServiceInterface {
 
   @override
   Future<void> updateUser(User user) async {
-    final db = await _database;
+    final db = _database;
 
     await db.update(
       'users',
@@ -85,7 +81,7 @@ class DataService implements DataServiceInterface {
 
   @override
   Future<void> deleteUser(int id) async {
-    final db = await _database;
+    final db = _database;
 
     await db.delete(
       'users',

@@ -27,6 +27,10 @@ class _SignUpPageState extends State<SignUpPage> {
     });
   }
 
+  void navigateToLogin() {
+    Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+  }
+
   void register() async {
     if (_emailController.value.text.isEmpty ||
         !_emailController.value.text.contains('@')) {
@@ -50,6 +54,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
     _emailController.clear();
     _passwordController.clear();
+    navigateToLogin();
   }
 
   @override

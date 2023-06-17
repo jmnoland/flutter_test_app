@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter_test_app/state_object.dart';
+import 'package:flutter_test_app/injection.dart';
+import 'package:flutter_test_app/models/entities/user.dart';
+import 'package:flutter_test_app/services/data_service.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -10,18 +11,26 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _counter = 0;
+  final _dataService = getIt.get<DataService>();
+  final List<User> _users = List.empty(growable: true);
 
-  void _incrementCounter() {
+  void getUserData() async {
+    var response = await _dataService.getUsers();
     setState(() {
-      _counter++;
+      for (var user in response) {
+        _users.add(user);
+      }
     });
   }
 
   @override
-  Widget build(BuildContext context) {
-    var appState = context.watch<StateObject>();
+  void initState() {
+    super.initState();
+    getUserData();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -31,22 +40,16 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
+            for (var user in _users)
+              Row(
+                children: [
+                  Text(user.email),
+                  const Text(" "),
+                  Text(user.password)
+                ],
+              )
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _incrementCounter();
-        },
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
     );
   }

@@ -14,17 +14,18 @@ class _SplashPageState extends State<SplashPage> {
   final _dataService = getIt.get<DataService>();
 
   void navigateToSignIn() {
-    Navigator.pushNamed(context, '/signup');
+    Navigator.pushNamedAndRemoveUntil(context, '/signup', (route) => false);
   }
 
   void navigateToLogin() {
-    Navigator.pushNamed(context, '/login');
+    Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
   }
 
   void checkLogin() async {
     var users = await _dataService.getUsers();
     if (users.isEmpty) {
       navigateToSignIn();
+      return;
     }
     navigateToLogin();
   }

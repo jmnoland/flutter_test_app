@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter_test_app/state_object.dart';
+import 'package:flutter_test_app/injection.dart';
+import 'package:flutter_test_app/services/data_service.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -10,6 +10,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final DataService _dataService = getIt.get<DataService>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   var _showPassword = false;
@@ -20,10 +21,29 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
+  void navigateToHome() {
+    Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+  }
+
+  void login() async {
+    var userExists = await _dataService.login(
+        _emailController.text, _passwordController.text);
+    if (userExists) {
+      navigateToHome();
+    }
+    _emailController.clear();
+    _passwordController.clear();
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    var appState = context.watch<StateObject>();
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -72,7 +92,9 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          login();
+        },
         tooltip: 'Login',
         child: const Icon(Icons.add),
       ),

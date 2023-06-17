@@ -12,6 +12,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   configureDependencies();
   getIt.registerSingleton(DataService());
+  var db = getIt.get<DataService>();
+  await db.openLocalDatabase();
+
   runApp(const MyApp());
 }
 
