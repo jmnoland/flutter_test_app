@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test_app/pages/home/home_page.dart';
+import 'package:flutter_test_app/pages/login/biometric_page.dart';
 import 'package:flutter_test_app/pages/login/login_page.dart';
 import 'package:flutter_test_app/pages/splash/splash_page.dart';
 import 'package:flutter_test_app/services/data_service.dart';
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
             '/signup': (context) => const SignUpPage(),
             '/login': (context) => const LoginPage(),
             '/home': (context) => const HomePage(),
+            '/biometric': (context) => const BiometricPage(),
           },
         ));
   }

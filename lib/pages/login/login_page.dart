@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test_app/injection.dart';
 import 'package:flutter_test_app/services/data_service.dart';
+import 'package:local_auth/local_auth.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -13,6 +14,7 @@ class _LoginPageState extends State<LoginPage> {
   final DataService _dataService = getIt.get<DataService>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final LocalAuthentication _localAuth = LocalAuthentication();
   var _showPassword = false;
 
   void _toggleShowPassword() {
@@ -21,14 +23,30 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
+  Future<bool> hasBiometrics() async {
+    try {
+      return await _localAuth.canCheckBiometrics;
+    } on Exception catch (e) {
+      return false;
+    }
+  }
+
   void navigateToHome() {
     Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+  }
+
+  void navigateToBiometric() {
+    Navigator.pushNamedAndRemoveUntil(context, '/biometric', (route) => false);
   }
 
   void login() async {
     var userExists = await _dataService.login(
         _emailController.text, _passwordController.text);
     if (userExists) {
+      if (await hasBiometrics()) {
+        navigateToBiometric();
+        return;
+      }
       navigateToHome();
     }
     _emailController.clear();
