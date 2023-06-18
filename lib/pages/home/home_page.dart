@@ -23,6 +23,10 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  void navigateToPhotoPage() {
+    Navigator.pushNamedAndRemoveUntil(context, '/photo', (route) => false);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -50,6 +54,13 @@ class _HomePageState extends State<HomePage> {
               )
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          navigateToPhotoPage();
+        },
+        tooltip: 'GotoPhoto',
+        child: const Icon(Icons.photo),
       ),
     );
   }
